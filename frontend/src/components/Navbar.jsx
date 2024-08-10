@@ -13,8 +13,8 @@ const Navbar = () => {
                 <img onClick={() => navigate(1)} className="w-8 bg-black p-2 rounded-2xl cursor-pointer" src={assets.arrow_right} alt="" />
             </div>
             <div className="flex items-center gap-4">
-                <button className="font-[Metropolis] font-bold text-gray-400 mr-5 cursor-pointer hover:text-white hover:scale-105">Sign up</button>
-                <button className="font-[Metropolis font-bold bg-white text-black text-[17px] px-8 py-3 rounded-full hidden md:block cursor-pointer hover:bg-gray-200 hover:scale-105">Log in</button>
+                <button className="font-[Metropolis] font-bold text-gray-400 mr-5 cursor-pointer hover:text-white hover:scale-105 active:text-gray-500 active:scale-100">Sign up</button>
+                <button className="font-[Metropolis font-bold bg-white text-black text-[17px] px-8 py-3 rounded-full hidden md:block cursor-pointer hover:bg-gray-200 hover:scale-[1.03] active:bg-gray-400 active:scale-100">Log in</button>
             </div>
         </div>
     </>

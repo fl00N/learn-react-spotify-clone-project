@@ -3,6 +3,9 @@ import DisplayAlbum from "./DisplayAlbum"
 import DisplayHome from "./DisplayHome"
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { PlayerContext } from "../context/PlayerContext"
+import Search from "./Search"
+import ShowAllSongs from "./ShowAllSongs"
+import ShowAllAlbums from "./ShowAllAlbums"
 
 const Display = () => {
 
@@ -11,22 +14,26 @@ const Display = () => {
   const location = useLocation()
   const isAlbum = location.pathname.includes('album')
   const albumId = isAlbum ? location.pathname.split('/').pop() : ''
-  const bgColor = isAlbum && albumsData.length > 0 ? albumsData.find((x) => (x._id == albumId)).bgColor : '#121212'
-
+  const album = albumsData.find((x) => x._id === albumId);
+  const bgColor = isAlbum && album ? album.bgColor : '#121212';
+  
   useEffect(() => {
-    if (isAlbum) {
-      displayRef.current.style.background = `linear-gradient(${bgColor}, #121212)`
-    } else {
-      displayRef.current.style.background = `#121212`
+    if (displayRef.current) {
+      displayRef.current.style.background = isAlbum
+        ? `linear-gradient(${bgColor}, #121212)`
+        : '#121212';
     }
-  })
+  }, [isAlbum, bgColor, albumsData]);
 
   return (
-    <div ref={displayRef} className="w-[100%] m-2 px-6 pt-4 rounded-lg bg-[#121212] text-white overflow-auto lg:w-[75%] lg:ml-0">
+    <div ref={displayRef} className="scroll-container w-[100%] m-2 px-6 pt-4 rounded-lg bg-[#121212] text-white overflow-auto lg:w-[75%] lg:ml-0">
         {albumsData.length > 0
         ? <Routes>
             <Route path='/' element={<DisplayHome />} />
             <Route path='/album/:id' element={<DisplayAlbum album={albumsData.find((x) => (x._id == albumId))}/>} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/show-all-songs" element={<ShowAllSongs />} />
+            <Route path="/show-all-albums" element={<ShowAllAlbums />} />
           </Routes>
         : null
         }

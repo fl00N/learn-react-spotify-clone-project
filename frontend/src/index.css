@@ -4,6 +4,25 @@
 @tailwind components;
 @tailwind utilities;
 
-::-webkit-scrollbar{
-    display: none;
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: #ffffff4C;
+    
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff3c;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #ffffff7c;
+}
+
+.scroll-container {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }

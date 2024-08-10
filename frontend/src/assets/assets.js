@@ -5,6 +5,7 @@ import loop_icon from './loop.png'
 import mic_icon from './mic.png'
 import next_icon from './next.png'
 import play_icon from './play.png'
+import small_play_icon from './small_play.png'
 import pause_icon from './pause.png'
 import plays_icon from './plays.png'
 import prev_icon from './prev.png'
@@ -18,10 +19,13 @@ import arrow_icon from './arrow.png'
 import mini_player_icon from './mini-player.png'
 import queue_icon from './queue.png'
 import volume_icon from './volume.png'
+import mute_icon from './mute.png'
 import arrow_right from './right_arrow.png'
 import arrow_left from './left_arrow.png'
 import spotify_logo from './spotify_logo.png'
 import clock_icon from './clock_icon.png'
+import green_play_icon from './green_play.png'
+import more_icon from './more.png'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
 import img3 from './img3.jpg'
@@ -50,6 +54,7 @@ export const assets = {
     mic_icon,
     next_icon,
     play_icon,
+    small_play_icon,
     plays_icon,
     prev_icon,
     search_icon,
@@ -61,12 +66,15 @@ export const assets = {
     arrow_icon,
     mini_player_icon,
     volume_icon,
+    mute_icon,
     queue_icon,
     pause_icon,
     arrow_left,
     arrow_right,
     spotify_logo,
-    clock_icon
+    clock_icon,
+    green_play_icon,
+    more_icon
 }
 
 export const albumsData = [
