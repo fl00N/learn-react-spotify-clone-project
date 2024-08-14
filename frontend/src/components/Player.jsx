@@ -5,18 +5,22 @@ import { PlayerContext } from "../context/PlayerContext";
 const Player = () => {
     const {
         track, seekBg, seekBar, playStatus, play, pause, time, previous, next, seekSong,
-        setVolume, volume, shuffle, repeat, isShuffle, isRepeat, isMuted, toggleMute
+        setVolume: setPlayerVolume, volume, shuffle, repeat, isShuffle, isRepeat, isMuted, toggleMute
     } = useContext(PlayerContext);
     const [isHovered, setIsHovered] = useState(false);
+    const [isSeekBarHovered, setIsSeekBarHovered] = useState(false); // Для seekBar
 
     const handleSliderChange = (e) => {
-        setVolume(e.target.value);
+        let newVolume = parseFloat(e.target.value);
+        // Убедитесь, что volume находится в пределах [0, 1]
+        newVolume = Math.max(0, Math.min(1, newVolume));
+        setPlayerVolume(newVolume);
     };
 
     return track ? (
         <div className="h-[10%] bg-black flex justify-between items-center text-white px-4">
             <div className="hidden lg:flex items-center gap-4">
-                <img className="w-12 c" src={track.image} alt="" />
+                <img className="w-14 mb-1 rounded" src={track.image} alt="" />
                 <div>
                     <p className="font-[Metropolis] font-semibold text-sm cursor-pointer">{track.name}</p>
                     <p className="font-[Metropolis] font-semibold text-gray-400 text-sm cursor-pointer">{track.desc.slice(0, 25)}</p>
@@ -24,7 +28,7 @@ const Player = () => {
             </div>
             <div className="flex flex-col items-center gap-1 absolute left-[50%] translate-x-[-50%]">
                 <div className="flex items-center gap-6">
-                <img
+                    <img
                         onClick={shuffle}
                         className="w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer"
                         src={assets.shuffle_icon}
@@ -56,11 +60,24 @@ const Player = () => {
                     />
                 </div>
                 <div className="flex items-center gap-2 font-[Metropolis] font-medium">
-                    <p className="text-gray-400 text-xs">{time.currentTime.minute}:{time.currentTime.second.toString().padStart(2, '0')}</p>
-                    <div ref={seekBg} onClick={seekSong} className="w-[60vw] max-w-[500px] bg-zinc-600 rounded-full cursor-pointer">
-                        <hr ref={seekBar} className="h-1 border-none w-0 bg-white rounded-full"/>
+                    <p className="text-gray-400 text-xs">
+                        {time?.currentTime ? `${time.currentTime.minute}:${time.currentTime.second.toString().padStart(2, '0')}` : "00:00"}
+                    </p>
+                    <div
+                        ref={seekBg}
+                        onClick={seekSong}
+                        className={`w-[60vw] max-w-[500px] rounded-full cursor-pointer ${isSeekBarHovered ? 'bg-gray-500' : 'bg-zinc-600'}`} // Используем состояние для фона seekBg
+                        onMouseEnter={() => setIsSeekBarHovered(true)}
+                        onMouseLeave={() => setIsSeekBarHovered(false)}
+                    >
+                        <hr
+                            ref={seekBar}
+                            className={`h-1 border-none w-0 rounded-full ${isSeekBarHovered ? 'bg-green-400' : 'bg-white'}`} // Используем состояние для фона seekBar
+                        />
                     </div>
-                    <p className="text-gray-400 text-xs">{time.totalTime.minute}:{time.totalTime.second.toString().padStart(2, '0')}</p>
+                    <p className="text-gray-400 text-xs">
+                        {time?.totalTime ? `${time.totalTime.minute}:${time.totalTime.second.toString().padStart(2, '0')}` : "00:00"}
+                    </p>
                 </div>
             </div>
             <div className="hidden lg:flex items-center gap-2 opacity-75">
@@ -79,7 +96,10 @@ const Player = () => {
                         className={`relative w-20 h-1 ${isHovered ? 'bg-zinc-600' : 'bg-zinc-600'} rounded-full cursor-pointer`}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        onClick={(e) => setVolume(e.nativeEvent.offsetX / e.currentTarget.offsetWidth)}
+                        onClick={(e) => {
+                            const newVolume = e.nativeEvent.offsetX / e.currentTarget.offsetWidth;
+                            setPlayerVolume(Math.max(0, Math.min(1, newVolume)));
+                        }}
                     >
                         <input
                             type="range"

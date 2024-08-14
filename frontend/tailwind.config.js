@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         roboto: ["Metropolis", "sans-serif"],
       },
+
       brightness: {
         65: '.65',
       }

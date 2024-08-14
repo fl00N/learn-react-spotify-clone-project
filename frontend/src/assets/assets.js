@@ -26,6 +26,11 @@ import spotify_logo from './spotify_logo.png'
 import clock_icon from './clock_icon.png'
 import green_play_icon from './green_play.png'
 import more_icon from './more.png'
+import note_icon  from './music-note-plus.png'
+import plus_border_icon from './plus_border.png'
+import share_icon from './share.png'
+import arrow_filled_icon from './arrow_filled.png'
+import copy_icon from './copy.png'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
 import img3 from './img3.jpg'
@@ -74,7 +79,12 @@ export const assets = {
     spotify_logo,
     clock_icon,
     green_play_icon,
-    more_icon
+    more_icon,
+    note_icon,
+    plus_border_icon,
+    share_icon,
+    arrow_filled_icon,
+    copy_icon
 }
 
 export const albumsData = [
