@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { assets } from '../assets/assets';
-import { PlayerContext } from '../context/PlayerContext';
+import { PlayerContext } from '../contexts/PlayerContext';
 
 const Search = () => {
   const location = useLocation();

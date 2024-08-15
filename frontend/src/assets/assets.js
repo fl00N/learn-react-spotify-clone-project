@@ -23,6 +23,7 @@ import mute_icon from './mute.png'
 import arrow_right from './right_arrow.png'
 import arrow_left from './left_arrow.png'
 import spotify_logo from './spotify_logo.png'
+import white_spotify_logo from './white_spotify.png'
 import clock_icon from './clock_icon.png'
 import green_play_icon from './green_play.png'
 import more_icon from './more.png'
@@ -31,6 +32,7 @@ import plus_border_icon from './plus_border.png'
 import share_icon from './share.png'
 import arrow_filled_icon from './arrow_filled.png'
 import copy_icon from './copy.png'
+import tick_icon from './tick.png'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
 import img3 from './img3.jpg'
@@ -84,7 +86,9 @@ export const assets = {
     plus_border_icon,
     share_icon,
     arrow_filled_icon,
-    copy_icon
+    copy_icon,
+    white_spotify_logo,
+    tick_icon
 }
 
 export const albumsData = [

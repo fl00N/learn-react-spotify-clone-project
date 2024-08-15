@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef } from "react"
-import DisplayAlbum from "./DisplayAlbum"
+import DisplayAlbum from "./Album/DisplayAlbum"
 import DisplayHome from "./DisplayHome"
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { PlayerContext } from "../context/PlayerContext"
+import { PlayerContext } from "../contexts/PlayerContext"
 import Search from "./Search"
-import ShowAllSongs from "./ShowAllSongs"
-import ShowAllAlbums from "./ShowAllAlbums"
+import ShowAllSongs from "./Song/ShowAllSongs"
+import ShowAllAlbums from "./Album/ShowAllAlbums"
 
 const Display = () => {
 

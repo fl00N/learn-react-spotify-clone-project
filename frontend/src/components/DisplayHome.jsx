@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import Navbar from "./Navbar";
-import AlbumItem from "./AlbumItem";
-import SongItem from "./SongItem";
+import AlbumItem from "./Album/AlbumItem";
+import SongItem from "./Song/SongItem";
 import { useContext } from "react";
-import { PlayerContext } from "../context/PlayerContext";
+import { PlayerContext } from "../contexts/PlayerContext";
 import { useNavigate } from "react-router-dom";
 
 const DisplayHome = () => {

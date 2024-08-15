@@ -24,12 +24,12 @@ const SideBar = () => {
     return (
         <div className="w-[25%] h-full p-2 flex-col gap-2 text-white hidden lg:flex">
             <div className="bg-[#121212] h-[20%] rounded-lg flex flex-col justify-around">
-                <div onClick={() => navigate('/')} className={`flex items-center gap-5 pl-6 cursor-pointer brightness-65 hover:brightness-100 transition ${isHomeActive ? 'brightness-200' : ''}`}>
+                <div onClick={() => navigate('/')} className={`flex items-center gap-5 pl-6 cursor-pointer transition ${isHomeActive ? 'brightness-200' : 'brightness-65 hover:brightness-100'}`}>
                     <img className="w-6" src={assets.home_icon} alt="Home Icon" />
                     <p className="font-bold">Home</p>
                 </div>
 
-                <div onClick={() => navigate('/search')} className={`flex items-center gap-5 pl-6 cursor-pointer brightness-65 hover:brightness-100 transition ${isSearchActive ? 'brightness-200' : ''}`}>
+                <div onClick={() => navigate('/search')} className={`flex items-center gap-5 pl-6 cursor-pointer transition ${isSearchActive ? 'brightness-200' : 'brightness-65 hover:brightness-100'}`}>
                     <img className="w-6" src={assets.search_icon} alt="Search Icon" />
                     <p className="font-bold">Search</p>
                 </div>

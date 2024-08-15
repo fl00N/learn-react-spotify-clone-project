@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
-import { PlayerContext } from "../context/PlayerContext";
+import { PlayerContext } from "../contexts/PlayerContext";
 
 const Player = () => {
     const {
@@ -8,11 +8,10 @@ const Player = () => {
         setVolume: setPlayerVolume, volume, shuffle, repeat, isShuffle, isRepeat, isMuted, toggleMute
     } = useContext(PlayerContext);
     const [isHovered, setIsHovered] = useState(false);
-    const [isSeekBarHovered, setIsSeekBarHovered] = useState(false); // Для seekBar
+    const [isSeekBarHovered, setIsSeekBarHovered] = useState(false);
 
     const handleSliderChange = (e) => {
         let newVolume = parseFloat(e.target.value);
-        // Убедитесь, что volume находится в пределах [0, 1]
         newVolume = Math.max(0, Math.min(1, newVolume));
         setPlayerVolume(newVolume);
     };
