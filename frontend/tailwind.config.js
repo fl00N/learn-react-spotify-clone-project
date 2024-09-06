@@ -12,6 +12,10 @@ export default {
 
       brightness: {
         65: '.65',
+      }, 
+
+      transitionProperty: {
+        'optr': 'opacity, transform'
       }
     },
   },

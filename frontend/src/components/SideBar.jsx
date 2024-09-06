@@ -1,21 +1,30 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
-import { useState } from 'react';
-import LoginMessage from './LoginMessage';
+import { useContext, useState } from 'react';
+import LoginMessage from './Message/LoginMessage';
+import { AuthContext } from '../contexts/AuthContext';
+
 
 const SideBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { authState } = useContext(AuthContext)
+
+    const [isOpen, setOpen] = useState(false);
+    const [isMessageOpen, setMessageOpen] = useState(false);
+    const [playlist, setPlaylist] = useState(false)
+
+    const handleModalClick = () => {
+        setMessageOpen(true);
+    };
 
     const handleCreatePlaylistClick = () => {
-        setIsModalOpen(true);
+        setPlaylist(true);
     };
 
     const toggleDropdown = () => {
-        setIsOpen(prev => !prev);
+        setOpen(prev => !prev);
     };
 
     const isHomeActive = location.pathname === '/';
@@ -55,9 +64,11 @@ const SideBar = () => {
                                 <ul className="py-1.5 px-1">
                                 <li 
                                     className="flex items-center py-2 px-2 hover:bg-[#ffffff23] cursor-pointer" 
-                                    onClick={() => {
-                                        handleCreatePlaylistClick();
-                                        setIsOpen(false);
+                                    onClick={authState.token
+                                        ? handleCreatePlaylistClick 
+                                        : () => {
+                                        handleModalClick();
+                                        setOpen(false);
                                     }}
                                 >                                   
                                         <img className="w-6" src={assets.note_icon} alt="Create Playlist Icon" />
@@ -72,16 +83,16 @@ const SideBar = () => {
                     <h1 className="font-[Metropolis] text-[#b3b3b3]">Create your first playlist</h1>
                     <p className="font-[Metropolis] text-[#b3b3b3] font-medium text-[14px]">It's easy, we will help you</p>
                     <button 
-                        onClick={handleCreatePlaylistClick} 
+                        onClick={handleModalClick} 
                         className="font-[Metropolis] font-bold px-4 py-1.5 bg-white text-[15px] text-black rounded-full mt-4 hover:bg-gray-200 hover:scale-[1.03] active:bg-gray-400 active:scale-100"
                     >
                         Create Playlist
                     </button>
 
-                    {isModalOpen && (
+                    {isMessageOpen && (
                         <LoginMessage 
-                            isOpen={isModalOpen} 
-                            onClose={() => setIsModalOpen(false)} 
+                            isOpen={isMessageOpen} 
+                            onClose={() => setMessageOpen(false)} 
                         />
                     )}
                 </div>

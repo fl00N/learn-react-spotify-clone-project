@@ -1,8 +1,11 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { PlayerContext } from './PlayerContext';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const { setTrack } = useContext(PlayerContext)
+
     const [authState, setAuthState] = useState({
         token: localStorage.getItem('token') || null,
         user: JSON.parse(localStorage.getItem('user')) || null
@@ -18,6 +21,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         setAuthState({ token: null, user: null });
+        setTrack(null)
     };
 
     useEffect(() => {

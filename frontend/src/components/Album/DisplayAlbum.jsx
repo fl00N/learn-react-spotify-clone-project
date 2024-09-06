@@ -3,7 +3,9 @@ import Navbar from "../Navbar";
 import { assets } from "../../assets/assets";
 import { useContext, useEffect, useState } from "react";
 import { PlayerContext } from "../../contexts/PlayerContext";
-import LoginMessage from "../LoginMessage";
+import LoginMessage from '../Message/LoginMessage';
+import { AuthContext } from "../../contexts/AuthContext";
+import ModalMessage from "../Message/ModalMessage";
 
 const DisplayAlbum = () => {
     const { id } = useParams();
@@ -11,15 +13,22 @@ const DisplayAlbum = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const { playWithId, albumsData, songsData, track, setNavigationToAlbum } = useContext(PlayerContext);    
-    const [isOpen, setIsOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isOpen, setOpen] = useState(false);
+    const [isMessageOpen, setMessageOpen] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false)
+    const { authState } = useContext(AuthContext)
+    
 
     const handleCreatePlaylistClick = () => {
-        setIsModalOpen(true);
+        setMessageOpen(true);
     };
 
+    const handleModalClick = () => {
+        setModalOpen(true)
+    }
+
     const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+        setOpen(!isOpen);
     };
 
     useEffect(() => {
@@ -60,7 +69,7 @@ const DisplayAlbum = () => {
                 </div>
             </div>
             <div className="flex items-center gap-7 mt-7">
-                <img onClick={handlePlayFirstSong} className="w-14 cursor-pointer hover:brightness-150 hover:scale-105 active:scale-100 active:brightness-50" src={assets.green_play_icon} alt="Play" />
+                <img onClick={!authState.token ? handleModalClick : handlePlayFirstSong } className="w-14 cursor-pointer hover:brightness-150 hover:scale-105 active:scale-100 active:brightness-50" src={assets.green_play_icon} alt="Play" />
                 <img className="w-8 cursor-pointer brightness-65 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50" src={assets.plus_border_icon} alt="Like" />
 
                 <div className='relative'>
@@ -111,7 +120,7 @@ const DisplayAlbum = () => {
                                                         className="font-semibold text-sm text-[#ffffffE6] px-3"
                                                         onClick={() => {
                                                             handleCreatePlaylistClick();
-                                                            setIsOpen(false);
+                                                            setOpen(false);
                                                         }}
                                                     >
                                                         Create playlist
@@ -159,7 +168,7 @@ const DisplayAlbum = () => {
             {
                 songsData.filter((item) => item.album === albumData.name).map((item, index) => (
                     <div
-                        onClick={() => handleClick(item._id)}
+                        onClick={!authState.token ? handleModalClick : () => handleClick(item._id)}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
                         key={item._id}
@@ -193,10 +202,17 @@ const DisplayAlbum = () => {
                 ))
             }
 
-            {isModalOpen && (
+            {isMessageOpen && (
                 <LoginMessage 
-                    isOpen={isModalOpen} 
-                    onClose={() => setIsModalOpen(false)} 
+                    isOpen={isMessageOpen} 
+                    onClose={() => setMessageOpen(false)} 
+                />
+            )}
+
+            {isModalOpen && (
+                <ModalMessage
+                    image={albumData.image}
+                    onClose={() => setModalOpen(false)}
                 />
             )}
         </>

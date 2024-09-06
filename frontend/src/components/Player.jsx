@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { PlayerContext } from "../contexts/PlayerContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Player = () => {
     const {
@@ -9,6 +10,7 @@ const Player = () => {
     } = useContext(PlayerContext);
     const [isHovered, setIsHovered] = useState(false);
     const [isSeekBarHovered, setIsSeekBarHovered] = useState(false);
+    const { authState } = useContext(AuthContext)
 
     const handleSliderChange = (e) => {
         let newVolume = parseFloat(e.target.value);
@@ -16,43 +18,48 @@ const Player = () => {
         setPlayerVolume(newVolume);
     };
 
-    return track ? (
+    return (
         <div className="h-[10%] bg-black flex justify-between items-center text-white px-4">
             <div className="hidden lg:flex items-center gap-4">
-                <img className="w-14 mb-1 rounded" src={track.image} alt="" />
-                <div>
-                    <p className="font-[Metropolis] font-semibold text-sm cursor-pointer">{track.name}</p>
-                    <p className="font-[Metropolis] font-semibold text-gray-400 text-sm cursor-pointer">{track.desc.slice(0, 25)}</p>
-                </div>
+                    {track 
+                        ? <div className="hidden lg:flex items-center gap-4">
+                            <img className="w-14 mb-1 rounded" src={track.image} alt="" />
+                            <div>
+                                <p className="font-[Metropolis] font-semibold text-sm cursor-pointer">{track.name}</p>
+                                <p className="font-[Metropolis] font-semibold text-gray-400 text-sm cursor-pointer">{track.desc.slice(0, 25)}</p>
+                            </div>
+                        </div> 
+                        : null
+                    }
             </div>
             <div className="flex flex-col items-center gap-1 absolute left-[50%] translate-x-[-50%]">
                 <div className="flex items-center gap-6">
                     <img
                         onClick={shuffle}
-                        className="w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer"
+                        className={`w-4 opacity-75 hover:opacity-100 hover:scale-105 active:scale-100 active:opacity-50 cursor-pointer ${!track ? 'pointer-events-none opacity-[20%]' : ''}`}
                         src={assets.shuffle_icon}
                         alt="Shuffle"
                         style={{ filter: isShuffle ? 'invert(40%) sepia(100%) saturate(200%) hue-rotate(90deg)' : 'none' }}
                     />
                     <img
                         onClick={previous}
-                        className="w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer"
+                        className={`w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''}`}
                         src={assets.prev_icon}
                         alt="Previous"
                     />
                     {playStatus
-                        ? <img onClick={pause} className="w-8 hover:scale-105 hover:brightness-90 active:scale-100 active:brightness-65 cursor-pointer" src={assets.pause_icon} alt="Pause" />
-                        : <img onClick={play} className="w-8 hover:scale-105 hover:brightness-90 active:scale-100 active:brightness-65 cursor-pointer" src={assets.play_icon} alt="Play" />
+                        ? <img onClick={pause} className={`w-8 hover:scale-105 hover:brightness-90 active:scale-100 active:brightness-65 cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''}`} src={assets.pause_icon} alt="Pause" />
+                        : <img onClick={play} className={`w-8 hover:scale-105 hover:brightness-90 active:scale-100 active:brightness-65 cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''}`} src={assets.play_icon} alt="Play" />
                     }
                     <img
                         onClick={next}
-                        className="w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer"
+                        className={`w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''}`}
                         src={assets.next_icon}
                         alt="Next"
                     />
                     <img
                         onClick={repeat}
-                        className="w-4 brightness-75 hover:brightness-100 hover:scale-105 active:scale-100 active:brightness-50 cursor-pointer"
+                        className={`w-4 opacity-75 hover:opacity-100 hover:scale-105 active:scale-100 active:opacity-50 cursor-pointer ${!track ? 'pointer-events-none opacity-[20%]' : ''}`}
                         src={assets.loop_icon}
                         alt="Repeat"
                         style={{ filter: isRepeat ? 'invert(40%) sepia(100%) saturate(200%) hue-rotate(90deg)' : 'none' }}
@@ -60,22 +67,28 @@ const Player = () => {
                 </div>
                 <div className="flex items-center gap-2 font-[Metropolis] font-medium">
                     <p className="text-gray-400 text-xs">
-                        {time?.currentTime ? `${time.currentTime.minute}:${time.currentTime.second.toString().padStart(2, '0')}` : "00:00"}
+                        {track 
+                            ? `${time?.currentTime ? `${time.currentTime.minute}:${time.currentTime.second.toString().padStart(2, '0')}` : "00:00"}` 
+                            : <p className="brightness-50">--:--</p>
+                        }
                     </p>
                     <div
                         ref={seekBg}
                         onClick={seekSong}
-                        className={`w-[60vw] max-w-[500px] rounded-full cursor-pointer ${isSeekBarHovered ? 'bg-gray-500' : 'bg-zinc-600'}`} // Используем состояние для фона seekBg
+                        className={`w-[60vw] max-w-[500px] rounded-full cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''} ${isSeekBarHovered ? 'bg-gray-500' : 'bg-zinc-600'}`}
                         onMouseEnter={() => setIsSeekBarHovered(true)}
                         onMouseLeave={() => setIsSeekBarHovered(false)}
                     >
                         <hr
                             ref={seekBar}
-                            className={`h-1 border-none w-0 rounded-full ${isSeekBarHovered ? 'bg-green-400' : 'bg-white'}`} // Используем состояние для фона seekBar
+                            className={`h-1 border-none w-0 rounded-full ${isSeekBarHovered ? 'bg-green-400' : 'bg-white'}`}
                         />
                     </div>
                     <p className="text-gray-400 text-xs">
-                        {time?.totalTime ? `${time.totalTime.minute}:${time.totalTime.second.toString().padStart(2, '0')}` : "00:00"}
+                        {track
+                        ? `${time?.totalTime ? `${time.totalTime.minute}:${time.totalTime.second.toString().padStart(2, '0')}` : "00:00"}`
+                        : <p className="brightness-50">--:--</p>
+                        }
                     </p>
                 </div>
             </div>
@@ -120,7 +133,7 @@ const Player = () => {
                 <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.zoom_icon} alt="Zoom" />
             </div>
         </div>
-    ) : null;
+    )
 };
 
 export default Player;

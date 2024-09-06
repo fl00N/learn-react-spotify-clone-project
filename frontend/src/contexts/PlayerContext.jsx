@@ -80,21 +80,36 @@ const PlayerContextProvider = (props) => {
 
     const previous = async () => {
         if (track) {
-            const currentIndex = songsData.findIndex(item => track._id === item._id);
-    
-            if (currentIndex > 0) {
+            if (navigationMode === 'album') {
                 const albumSongs = songsData.filter(song => song.album === track.album);
-                const currentAlbumIndex = albumSongs.findIndex(item => track._id === item._id);
+                const currentIndex = albumSongs.findIndex(item => track._id === item._id);
     
-                if (currentAlbumIndex > 0) {
-                    const prevSong = albumSongs[currentAlbumIndex - 1];
-                    setTrack(prevSong);
+                if (currentIndex > 0) {
+                    setTrack(albumSongs[currentIndex - 1]);
+                    await audioRef.current.play();
+                    setPlayStatus(true);
+                } else if (isShuffle) {
+                    const randomIndex = Math.floor(Math.random() * albumSongs.length);
+                    setTrack(albumSongs[randomIndex]);
+                    await audioRef.current.play();
+                    setPlayStatus(true);
+                }
+            } else {
+                const currentIndex = songsData.findIndex(item => track._id === item._id);
+    
+                if (currentIndex > 0) {
+                    setTrack(songsData[currentIndex - 1]);
+                    await audioRef.current.play();
+                    setPlayStatus(true);
+                } else if (isShuffle) {
+                    const randomIndex = Math.floor(Math.random() * songsData.length);
+                    setTrack(songsData[randomIndex]);
                     await audioRef.current.play();
                     setPlayStatus(true);
                 }
             }
         }
-    };
+    };    
     
     const next = async () => {
         if (navigationMode === 'album') {
@@ -131,12 +146,11 @@ const PlayerContextProvider = (props) => {
         }
     };
 
-    const seekSong = (e) => {
-        if (audioRef.current) {
-            const newTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
-            audioRef.current.currentTime = newTime;
-        }
+    const seekSong = (e) => {    
+        const newTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
+        audioRef.current.currentTime = newTime;
     };
+    
 
     const toggleShuffle = () => {
         setIsShuffle(prev => !prev);
@@ -225,7 +239,6 @@ const PlayerContextProvider = (props) => {
         try {
             const response = await axios.get(`${url}/api/song/list`);
             setSongsData(response.data.songs);
-            setTrack(response.data.songs[0]);
         } catch (error) {
             console.log(error);
         }

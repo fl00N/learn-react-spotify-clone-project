@@ -25,10 +25,6 @@ const Navbar = () => {
         logout();
     };
 
-    useEffect(() => {
-        console.log('AuthState updated:', authState);
-    }, [authState]);
-
     return (
         <div className="w-full flex justify-between items-center font-semibold">
             <div className="flex items-center gap-2">

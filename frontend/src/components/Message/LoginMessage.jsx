@@ -1,9 +1,9 @@
 import { useEffect, useRef, useContext } from "react";
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 
 const LoginMessage = ({ isOpen, onClose }) => {
-    const modalRef = useRef(null);
+    const messageRef = useRef(null);
     const navigate = useNavigate()
     const { authState } = useContext(AuthContext);
 
@@ -12,7 +12,7 @@ const LoginMessage = ({ isOpen, onClose }) => {
     };
 
     const handleClickOutside = (e) => {
-        if (modalRef.current && !modalRef.current.contains(e.target)) {
+        if (messageRef.current && !messageRef.current.contains(e.target)) {
             onClose();
         }
     };
@@ -30,7 +30,7 @@ const LoginMessage = ({ isOpen, onClose }) => {
 
     return !authState.token ? (
         <div className="fixed left-[24rem] top-[12rem] flex items-center justify-center z-[1]">
-            <div ref={modalRef} className="bg-[#0074e0] p-4 w-[22rem] rounded-lg shadow-2xl animate-slide-in">
+            <div ref={messageRef} className="bg-[#0074e0] p-4 w-[22rem] rounded-lg shadow-2xl animate-slide-in">
                 <div className="absolute left-[-8px] top-[4.25rem] w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[10px] border-r-[#0074e0]"></div>
                 <h2 className="font-[Metropolis] font-bold text-base mb-2">Create a playlist</h2>
                 <p className="font-[Metropolis] font-medium text-[0.86rem] mb-4">Log in to create and share playlists.</p>
