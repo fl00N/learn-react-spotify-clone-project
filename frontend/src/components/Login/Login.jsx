@@ -33,24 +33,24 @@ const Login = () => {
     event.preventDefault();
     
     if (validate()) {
-      try {
-        const response = await axios.post('http://localhost:4000/api/user/login', {
-          emailOrUsername: data.emailOrUsername,
-          password: data.password,
-        });
+        try {
+            const response = await axios.post('http://localhost:4000/api/user/login', {
+                emailOrUsername: data.emailOrUsername,
+                password: data.password,
+            });
 
-        if (response.status === 200) {
-          login(response.data.token, { username: response.data.username });
-          toast.success('Login successful');
-          navigate('/');
+            if (response.status === 200) {
+                await login(response.data.token, response.data.user);
+                toast.success('Login successful');
+                navigate('/');
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'An error occurred';
+            toast.error(errorMessage);
+            setErrors({ ...errors, submit: errorMessage });
         }
-      } catch (error) {
-        const errorMessage = error.response?.data?.message || 'An error occurred';
-        toast.error(errorMessage);
-        setErrors({ ...errors, submit: errorMessage });
-      }
     }
-  };
+};
 
   const onChangeHandler = (event) => {
     const name = event.target.name;

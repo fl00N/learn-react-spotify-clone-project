@@ -1,17 +1,19 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-import { PlayerContext } from './PlayerContext';
+import { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const { setTrack } = useContext(PlayerContext)
 
-    const [authState, setAuthState] = useState({
-        token: localStorage.getItem('token') || null,
-        user: JSON.parse(localStorage.getItem('user')) || null
+    const [authState, setAuthState] = useState(() => {
+        const user = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        return {
+            user: user ? JSON.parse(user) : null,
+            token: token || null
+        };
     });
 
-    const login = (token, user) => {
+    const login = async (token, user) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
         setAuthState({ token, user });
@@ -21,15 +23,17 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         setAuthState({ token: null, user: null });
-        setTrack(null)
     };
 
     useEffect(() => {
+        const storedUser = localStorage.getItem('user');
         const storedToken = localStorage.getItem('token');
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-
-        if (storedToken && storedUser) {
-            setAuthState({ token: storedToken, user: storedUser });
+    
+        if (storedUser && storedToken) {
+            setAuthState({
+                user: JSON.parse(storedUser),
+                token: storedToken,
+            });
         }
     }, []);
 

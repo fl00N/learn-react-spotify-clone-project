@@ -22,7 +22,6 @@ const AlbumItem = ({ image, name, desc, id }) => {
         setNavigationToAlbum();
 
         const albumSongs = songsData.filter(song => song.album === name);
-        console.log(albumSongs);
         
         if (albumSongs.length > 0) {
             playWithId(albumSongs[0]._id);

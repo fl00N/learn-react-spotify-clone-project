@@ -6,6 +6,8 @@ import { PlayerContext } from "../../contexts/PlayerContext";
 import LoginMessage from '../Message/LoginMessage';
 import { AuthContext } from "../../contexts/AuthContext";
 import ModalMessage from "../Message/ModalMessage";
+import LikeDropdown from "../LikeDropdown";
+import { PlaylistContext } from "../../contexts/PlaylistContext";
 
 const DisplayAlbum = () => {
     const { id } = useParams();
@@ -13,11 +15,24 @@ const DisplayAlbum = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const { playWithId, albumsData, songsData, track, setNavigationToAlbum } = useContext(PlayerContext);    
+    const { addSongToPlaylist } = useContext(PlaylistContext);    
     const [isOpen, setOpen] = useState(false);
     const [isMessageOpen, setMessageOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false)
     const { authState } = useContext(AuthContext)
-    
+    const [isLikeDropdownOpen, setLikeDropdownOpen] = useState(false)
+    const [selectedPlaylists, setSelectedPlaylists] = useState([]);
+    const [selectedSongId, setSelectedSongId] = useState(null);
+
+    const handleOpenLikeDropdown = (e, songId) => {
+        e.stopPropagation();
+        setLikeDropdownOpen(!isLikeDropdownOpen);
+        setSelectedSongId(songId);
+    };
+
+    const handleCloseLikeDropdown = () => {
+        setLikeDropdownOpen(false)
+    }
 
     const handleCreatePlaylistClick = () => {
         setMessageOpen(true);
@@ -36,6 +51,25 @@ const DisplayAlbum = () => {
         if (album) setAlbumData(album);
     }, [id, albumsData]);
 
+    const parseDuration = (durationString) => {
+        if (!durationString) return 0;
+        const [minutes, seconds] = durationString.split(':').map(Number);
+        return (minutes * 60) + (seconds || 0);
+    };
+
+    const albumSongs = songsData.filter(song => song.album === albumData?.name);
+    const totalSongs = albumSongs.length;
+    const totalDurationInSeconds = albumSongs.reduce((acc, song) => {
+        const durationInSeconds = parseDuration(song.duration);
+        return acc + durationInSeconds;
+    }, 0);
+    
+    const formatDuration = (durationInSeconds) => {
+        const hours = Math.floor(durationInSeconds / 3600);
+        const minutes = Math.floor((durationInSeconds % 3600) / 60);
+        return ` ${hours} hr ${minutes} min`;
+    };
+
     const handlePlayFirstSong = () => {
         setNavigationToAlbum();
 
@@ -50,9 +84,28 @@ const DisplayAlbum = () => {
         setNavigationToAlbum();
       };
 
+      const handleAddToPlaylists = async (songId) => {
+        try {
+            for (const playlistId of selectedPlaylists) {
+                await addSongToPlaylist(playlistId, songId);
+            }
+            handleCloseLikeDropdown();
+        } catch (error) {
+            console.error('Error adding song to playlists:', error);
+        }
+    };
+
     return albumData ? (
         <>
             <Navbar />
+            {isLikeDropdownOpen && (
+                <LikeDropdown 
+                    onClose={handleCloseLikeDropdown} 
+                    onDone={(songId) => handleAddToPlaylists(songId)}
+                    setSelectedPlaylists={setSelectedPlaylists} 
+                    selectedSongId={selectedSongId}
+                />
+            )}
             <div className="mt-10 flex gap-8 flex-col md:flex-row md:items-end">
                 <img className="w-48 rounded" src={albumData.image} alt={albumData.name} />
                 <div className="flex flex-col">
@@ -63,8 +116,8 @@ const DisplayAlbum = () => {
                         <img className="inline-block w-5" src={assets.spotify_logo} alt="Spotify" />
                         <b className="ml-2 mr-1">Spotify</b>
                         • 1,323,154 likes
-                        • 50 songs,
-                        2 hr 30 min
+                        • {totalSongs} songs,
+                        {formatDuration(totalDurationInSeconds)}
                     </div>
                 </div>
             </div>
@@ -157,7 +210,6 @@ const DisplayAlbum = () => {
                         </div>
                     )}
                 </div>
-
             </div>
 
             <div className="flex justify-between mt-10 mb-4 pl-2 text-[#a7a7a7]">
@@ -172,23 +224,23 @@ const DisplayAlbum = () => {
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
                         key={item._id}
-                        className={`flex justify-between gap-2 p-2 items-center rounded cursor-pointer
+                        className={`flex justify-between gap-2 p-2 items-center rounded cursor-pointer relative
                         ${hoveredIndex === index ? 'bg-[#ffffff40]' : 'text-[#b3b3b3]'}`}
                     >
                         <div className="text-white flex items-center">
                             { hoveredIndex === index ? (
                                 <img className="ml-2 mr-[1.08rem] w-3" src={assets.small_play_icon} alt="Play Icon" />
                             ) : (
-                                <b 
+                                <b
                                     className={`ml-2 mr-5 text-[#b3b3b3]
                                     ${item._id === track?._id ? 'text-green-400' : 'text-[#b3b3b3]'}`}
                                 >
                                     {index + 1}
                                 </b>
                             )}
-                            <img className="inline w-10 me-5" src={item.image} alt={item.name} />
+                            <img className="inline w-10 h-10 object-cover me-5" src={item.image} alt={item.name} />
                             <div>
-                                <p 
+                                <p
                                     className={`font-[Metropolis] font-semibold text-[15px] cursor-pointer                           
                                     ${item._id === track?._id ? 'text-green-400' : 'text-white'}`}
                                 >
@@ -197,6 +249,16 @@ const DisplayAlbum = () => {
                                 <p className="font-[Metropolis] font-semibold text-gray-400 text-sm cursor-pointer">{item.desc.slice(0, 25)}</p>
                             </div>
                         </div>
+                        {hoveredIndex === index && 
+                            <img   
+                                onClick={(e) => handleOpenLikeDropdown(e, item._id)}
+                                className="w-4 brightness-75 hover:brightness-100 hover:scale-[1.03] right-[90px] absolute"  
+                                src={assets.plus_border_icon}    
+                                alt="" 
+                            />
+                        }
+                
+
                         <p className="font-[Metropolis] font-medium text-[15px] text-center mr-4">{item.duration}</p>
                     </div>
                 ))

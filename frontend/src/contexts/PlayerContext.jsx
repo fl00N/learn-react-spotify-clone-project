@@ -1,32 +1,42 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import axios from 'axios';
+import { AuthContext } from "./AuthContext";
+import { useLocation } from 'react-router-dom';
+import { PlaylistContext } from "./PlaylistContext";
 
 export const PlayerContext = createContext();
 
 const PlayerContextProvider = (props) => {
+
+    const url = 'http://localhost:4000';
+    
     const audioRef = useRef();
     const seekBg = useRef();
     const seekBar = useRef();
+    
+    const location = useLocation();
 
-    const url = 'http://localhost:4000';
+    const { authState } = useContext(AuthContext)
+    const { playlistsData } = useContext(PlaylistContext)
 
+    const [currentId, setCurrentId] = useState(null)
     const [songsData, setSongsData] = useState([]);
     const [albumsData, setAlbumsData] = useState([]);
     const [track, setTrack] = useState(null);
     const [playStatus, setPlayStatus] = useState(false);
-    const [time, setTime] = useState({
-        currentTime: { second: 0, minute: 0 },
-        totalTime: { second: 0, minute: 0 }
-    });
     const [volume, setVolume] = useState(0.1);
     const [isShuffle, setIsShuffle] = useState(false);
     const [isRepeat, setIsRepeat] = useState(false);
     const [navigationMode, setNavigationMode] = useState('album');
     const [isMuted, setIsMuted] = useState(false);
     const [prevVolume, setPrevVolume] = useState(0.1);
-
+    const [currentPlaylistSongs, setCurrentPlaylistSongs] = useState([]);
+    const [currentAlbumSongs, setCurrentAlbumSongs] = useState([]);
+    const [time, setTime] = useState({
+        currentTime: { second: 0, minute: 0 },
+        totalTime: { second: 0, minute: 0 }
+    });
+    
     const play = () => {
         if (audioRef.current) {
             audioRef.current.play();
@@ -50,7 +60,6 @@ const PlayerContextProvider = (props) => {
         }
     };
     
-    
     const unmute = () => {
         if (audioRef.current) {
             audioRef.current.muted = false;
@@ -59,7 +68,6 @@ const PlayerContextProvider = (props) => {
             audioRef.current.volume = prevVolume;
         }
     };
-    
     
     const toggleMute = () => {
         if (isMuted) {
@@ -73,85 +81,75 @@ const PlayerContextProvider = (props) => {
         const song = songsData.find(item => item._id === id);
         if (song) {
             setTrack(song);
-            await audioRef.current.play();
-            setPlayStatus(true);
+            if (audioRef.current) {
+                audioRef.current.src = song.file;
+                audioRef.current.load();
+                
+                audioRef.current.addEventListener('canplaythrough', async () => {
+                    try {
+                        await audioRef.current.play();
+                        setPlayStatus(true);
+                    } catch (error) {
+                        console.error('Error playing audio:', error);
+                    }
+                }, { once: true });
+            }
         }
     };
+
+    useEffect(() => {
+        const id = location.pathname.split('/').pop();
+        setCurrentId(id);
+    }, [location.pathname]);   
+
+
+    useEffect(() => {
+        const currentPlaylist = playlistsData.find(pl => pl._id === currentId);
+        if (currentPlaylist) {
+            setCurrentPlaylistSongs(currentPlaylist.songs);            
+        }
+    }, [currentId, playlistsData])
+    
+    useEffect(() => {
+        if (track && track.album) {
+            const albumSongs = songsData.filter(song => song.album === track.album);
+            setCurrentAlbumSongs(albumSongs);
+        }
+    }, [currentId, albumsData, songsData, track]);
 
     const previous = async () => {
         if (track) {
-            if (navigationMode === 'album') {
-                const albumSongs = songsData.filter(song => song.album === track.album);
-                const currentIndex = albumSongs.findIndex(item => track._id === item._id);
-    
-                if (currentIndex > 0) {
-                    setTrack(albumSongs[currentIndex - 1]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                } else if (isShuffle) {
-                    const randomIndex = Math.floor(Math.random() * albumSongs.length);
-                    setTrack(albumSongs[randomIndex]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                }
-            } else {
-                const currentIndex = songsData.findIndex(item => track._id === item._id);
-    
-                if (currentIndex > 0) {
-                    setTrack(songsData[currentIndex - 1]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                } else if (isShuffle) {
-                    const randomIndex = Math.floor(Math.random() * songsData.length);
-                    setTrack(songsData[randomIndex]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                }
-            }
-        }
-    };    
-    
-    const next = async () => {
-        if (navigationMode === 'album') {
-            const albumSongs = songsData.filter(song => song.album === track.album);
-            const currentIndex = albumSongs.findIndex(item => track._id === item._id);
-
-            if (currentIndex >= 0) {
-                if (currentIndex < albumSongs.length - 1) {
-                    setTrack(albumSongs[currentIndex + 1]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                } else if (isShuffle) {
-                    const randomIndex = Math.floor(Math.random() * albumSongs.length);
-                    setTrack(albumSongs[randomIndex]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                }
-            }
-        } else {
-            const currentIndex = songsData.findIndex(item => track._id === item._id);
-
-            if (currentIndex >= 0) {
-                if (currentIndex < songsData.length - 1) {
-                    setTrack(songsData[currentIndex + 1]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                } else if (isShuffle) {
-                    const randomIndex = Math.floor(Math.random() * songsData.length);
-                    setTrack(songsData[randomIndex]);
-                    await audioRef.current.play();
-                    setPlayStatus(true);
-                }
+            const songsArray = navigationMode === 'playlist' ? currentPlaylistSongs : currentAlbumSongs;
+            const currentIndex = songsArray.findIndex(item => track._id === item._id);
+            
+            if (currentIndex > 0) {
+                setTrack(songsArray[currentIndex - 1]);
+            } else if (isShuffle) {
+                const randomIndex = Math.floor(Math.random() * songsArray.length);
+                setTrack(songsArray[randomIndex]);
             }
         }
     };
+    
+    const next = async () => {
+        if (track) {
+            const songsArray = navigationMode === 'playlist' ? currentPlaylistSongs : currentAlbumSongs;
+            const currentIndex = songsArray.findIndex(item => track._id === item._id);
+            
+            if (currentIndex < songsArray.length - 1) {
+                setTrack(songsArray[currentIndex + 1]);
+            } else if (isShuffle) {
+                const randomIndex = Math.floor(Math.random() * songsArray.length);
+                setTrack(songsArray[randomIndex]);
+            }
+        }
+    };     
 
     const seekSong = (e) => {    
         const newTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
         audioRef.current.currentTime = newTime;
     };
     
-
     const toggleShuffle = () => {
         setIsShuffle(prev => !prev);
     };
@@ -164,8 +162,8 @@ const PlayerContextProvider = (props) => {
         setNavigationMode('album');
     };
 
-    const setNavigationToAll = () => {
-        setNavigationMode('all');
+    const setNavigationToPlaylist = () => {
+        setNavigationMode('playlist');
     };
 
     useEffect(() => {
@@ -254,14 +252,19 @@ const PlayerContextProvider = (props) => {
     };
 
     useEffect(() => {
-        getSongsData();
-        getAlbumsData();
+        getSongsData()
+        getAlbumsData()
     }, []);
+
+    useEffect(() => {
+        if (!authState.user) {
+            setTrack(null);
+        }
+    }, [authState.user]);
 
     const contextValue = {
         audioRef,
-        seekBg,
-        seekBar,
+        seekBg, seekBar,
         track, setTrack,
         playStatus, setPlayStatus,
         time, setTime,
@@ -275,8 +278,7 @@ const PlayerContextProvider = (props) => {
         repeat: toggleRepeat,
         isShuffle,
         isRepeat,
-        setNavigationToAlbum,
-        setNavigationToAll,
+        setNavigationToAlbum, setNavigationToPlaylist,
         navigationMode,
         isMuted,
         toggleMute
@@ -284,9 +286,10 @@ const PlayerContextProvider = (props) => {
 
     return (
         <PlayerContext.Provider value={contextValue}>
-            {props.children}
+                {props.children}
         </PlayerContext.Provider>
     );
 };
 
 export default PlayerContextProvider;
+

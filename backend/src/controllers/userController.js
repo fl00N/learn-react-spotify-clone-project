@@ -29,13 +29,21 @@ const loginUser = async (req, res) => {
         }
 
         const token = createToken(user._id);
-        res.status(200).json({ success: true, token, username: user.username });
+        res.status(200).json({
+            success: true,
+            token,
+            user: {
+                _id: user._id,
+                username: user.username
+            }
+        });
 
     } catch (error) {
         console.error("Login Error:", error);
-        res.status(500).json({ success: false, message: "Server error" });
+        res.status(500).json({ success: false, message: "Server error", error: error.message });
     }
 };
+
 
 const registerUser = async (req, res) => {
     const { username, password, email } = req.body;

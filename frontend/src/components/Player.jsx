@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { PlayerContext } from "../contexts/PlayerContext";
-import { AuthContext } from "../contexts/AuthContext";
 
 const Player = () => {
     const {
@@ -10,7 +9,6 @@ const Player = () => {
     } = useContext(PlayerContext);
     const [isHovered, setIsHovered] = useState(false);
     const [isSeekBarHovered, setIsSeekBarHovered] = useState(false);
-    const { authState } = useContext(AuthContext)
 
     const handleSliderChange = (e) => {
         let newVolume = parseFloat(e.target.value);
@@ -23,10 +21,10 @@ const Player = () => {
             <div className="hidden lg:flex items-center gap-4">
                     {track 
                         ? <div className="hidden lg:flex items-center gap-4">
-                            <img className="w-14 mb-1 rounded" src={track.image} alt="" />
+                            <img className="w-14 h-14 object-cover mb-1 rounded" src={track.image} alt="" />
                             <div>
                                 <p className="font-[Metropolis] font-semibold text-sm cursor-pointer">{track.name}</p>
-                                <p className="font-[Metropolis] font-semibold text-gray-400 text-sm cursor-pointer">{track.desc.slice(0, 25)}</p>
+                                <p className="font-[Metropolis] font-medium text-gray-400 text-[13px] cursor-pointer">{track.desc.slice(0, 25)}</p>
                             </div>
                         </div> 
                         : null
@@ -69,7 +67,7 @@ const Player = () => {
                     <p className="text-gray-400 text-xs">
                         {track 
                             ? `${time?.currentTime ? `${time.currentTime.minute}:${time.currentTime.second.toString().padStart(2, '0')}` : "00:00"}` 
-                            : <p className="brightness-50">--:--</p>
+                            : <span className="brightness-50">--:--</span>
                         }
                     </p>
                     <div
@@ -87,7 +85,7 @@ const Player = () => {
                     <p className="text-gray-400 text-xs">
                         {track
                         ? `${time?.totalTime ? `${time.totalTime.minute}:${time.totalTime.second.toString().padStart(2, '0')}` : "00:00"}`
-                        : <p className="brightness-50">--:--</p>
+                        : <span  className="brightness-50">--:--</span>
                         }
                     </p>
                 </div>
@@ -113,16 +111,28 @@ const Player = () => {
                             setPlayerVolume(Math.max(0, Math.min(1, newVolume)));
                         }}
                     >
-                        <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.01"
-                            value={volume}
-                            onChange={handleSliderChange}
-                            className="absolute top-[-6px] w-full opacity-0 cursor-pointer"
-                        />
+                        {isMuted 
+                                ?<input
+                                    type="range"
+                                    min="0"
+                                    max="1"
+                                    step="0.01"
+                                    value={volume}
+                                    onChange={handleSliderChange}
+                                    disabled
+                                    className='absolute top-[-6px] w-full opacity-0 cursor-not-allowed'
+                                />
+                            :   <input
+                                    type="range"
+                                    min="0"
+                                    max="1"
+                                    step="0.01"
+                                    value={volume}
+                                    onChange={handleSliderChange}
+                                    className='absolute top-[-6px] w-full opacity-0 cursor-pointer'
+                                />
 
+                        }
                         <div
                             className={`absolute top-0 left-0 h-1 ${isHovered ? 'bg-green-400' : 'bg-white'} rounded-full`}
                             style={{ width: `${volume * 100}%` }}

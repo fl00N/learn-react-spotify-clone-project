@@ -9,6 +9,6 @@ const songSchema = new mongoose.Schema({
     duration: {type: String, required: true},
 })
 
-const songModel = mongoose.models.song || mongoose.model('song', songSchema)
+const songModel = mongoose.models.song || mongoose.model('Song', songSchema)
 
 export default songModel
