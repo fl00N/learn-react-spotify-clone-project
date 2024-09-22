@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { assets } from "../assets/assets"
 import axios from 'axios'
-import { url } from "../App"
 import { toast } from "react-toastify"
+import { config } from "../config"
 
 const AddSong = () => {
 
@@ -27,7 +27,7 @@ const AddSong = () => {
         formData.append('audio', song)
         formData.append('album', album)
 
-        const response = await axios.post(`${url}/api/song/add`, formData)
+        const response = await axios.post(`${config.baseUrl}/api/song/add`, formData)
 
         if (response.data.success) {
           toast.success('Song added')
@@ -48,7 +48,7 @@ const AddSong = () => {
 
   const loadAlbumData = async () => {
     try {
-      const response = await axios.get(`${url}/api/album/list`)
+      const response = await axios.get(`${config.baseUrl}/api/album/list`)
 
       if (response.data.success) {
         setAlbumData(response.data.albums)

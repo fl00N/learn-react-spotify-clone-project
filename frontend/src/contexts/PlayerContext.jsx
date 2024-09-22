@@ -3,12 +3,11 @@ import axios from 'axios';
 import { AuthContext } from "./AuthContext";
 import { useLocation } from 'react-router-dom';
 import { PlaylistContext } from "./PlaylistContext";
+import { config } from "../config";
 
 export const PlayerContext = createContext();
 
 const PlayerContextProvider = (props) => {
-
-    const url = 'http://localhost:4000';
     
     const audioRef = useRef();
     const seekBg = useRef();
@@ -235,7 +234,7 @@ const PlayerContextProvider = (props) => {
 
     const getSongsData = async () => {
         try {
-            const response = await axios.get(`${url}/api/song/list`);
+            const response = await axios.get(`${config.baseUrl}/api/song/list`);
             setSongsData(response.data.songs);
         } catch (error) {
             console.log(error);
@@ -244,7 +243,7 @@ const PlayerContextProvider = (props) => {
 
     const getAlbumsData = async () => {
         try {
-            const response = await axios.get(`${url}/api/album/list`);
+            const response = await axios.get(`${config.baseUrl}/api/album/list`);
             setAlbumsData(response.data.albums);
         } catch (error) {
             console.log(error);

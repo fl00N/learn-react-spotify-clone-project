@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState} from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import { config } from '../config';
 
 export const PlaylistContext = createContext();
 
@@ -10,8 +11,6 @@ export const PlaylistProvider = ({ children }) => {
     const { authState } = useContext(AuthContext)
 
     const [playlistsData, setPlaylistsData] = useState([]);
-
-    const url = 'http://localhost:4000';
 
     const getPlaylistsData = async () => { 
         try {
@@ -23,7 +22,7 @@ export const PlaylistProvider = ({ children }) => {
                 return
             }
             
-            const response = await axios.get(`${url}/api/playlist/list`, {
+            const response = await axios.get(`${config.baseUrl}/api/playlist/list`, {
                 params: { userId, isAdmin },
             });
 
@@ -37,7 +36,7 @@ export const PlaylistProvider = ({ children }) => {
         const userId = authState.user ? authState.user._id : null;
 
         try {
-            const response = await axios.post(`${url}/api/playlist/add`, { name, userId });
+            const response = await axios.post(`${config.baseUrl}/api/playlist/add`, { name, userId });
             if (response.data.success) {
                 await getPlaylistsData();
             } else {
@@ -50,7 +49,7 @@ export const PlaylistProvider = ({ children }) => {
 
     const removePlaylist = async (playlistId) => {
         try {
-            const response = await axios.post(`${url}/api/playlist/remove`, { playlistId });
+            const response = await axios.post(`${config.baseUrl}/api/playlist/remove`, { playlistId });
             if (response.data.success) {
                 await getPlaylistsData();
                 toast.success('Playlist removed successfully!');
@@ -70,7 +69,7 @@ export const PlaylistProvider = ({ children }) => {
             formData.append('name', updatedName);
             if (updatedImage) formData.append('image', updatedImage);
     
-            const response = await axios.post(`${url}/api/playlist/edit`, formData, {
+            const response = await axios.post(`${config.baseUrl}/api/playlist/edit`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if (response.data.success) {
@@ -85,7 +84,7 @@ export const PlaylistProvider = ({ children }) => {
 
     const addSongToPlaylist = async (playlistId, songId) => {
         try {
-            const response = await axios.post(`${url}/api/playlist/add-song`, {
+            const response = await axios.post(`${config.baseUrl}/api/playlist/add-song`, {
                 playlistId,
                 songId,
                 userId: authState.user._id
@@ -106,7 +105,7 @@ export const PlaylistProvider = ({ children }) => {
     
     const removeSongFromPlaylist = async (playlistId, songId) => {
         try {
-            const response = await axios.post(`${url}/api/playlist/remove-song`, {
+            const response = await axios.post(`${config.baseUrl}/api/playlist/remove-song`, {
                 playlistId,
                 songId,
                 userId: authState.user._id
