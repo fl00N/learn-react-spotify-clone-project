@@ -281,7 +281,8 @@ const PlayerContextProvider = (props) => {
         setNavigationToAlbum, setNavigationToPlaylist,
         navigationMode,
         isMuted,
-        toggleMute
+        toggleMute,
+        currentId
     };    
 
     return (

@@ -186,13 +186,16 @@ const DisplayPlaylist = () => {
                     {isOpen && (
                         <div className='absolute left-[-0.5rem] mt-4 w-[12.5rem] bg-[#282828] rounded shadow-[0_16px_24px_rgba(0,0,0,0.2)] z-[1]'>
                             <ul className='py-2 px-1'>
-                                <li className="flex items-center font-medium py-2 px-2 text-[#ffffffe6] cursor-pointer hover:bg-[#ffffff23]">
+                                <li 
+                                    onClick={() => openEditModal(playlistData)} 
+                                    className="flex items-center font-medium py-2 px-2 text-[#ffffffe6] cursor-pointer hover:bg-[#ffffff23] rounded"
+                                >
                                     <img className='w-4 mr-4 brightness-75' src={assets.pencil_icon} alt="" />
                                     Edit Details
                                 </li>
                                 <li 
                                     onClick={handleDelete}
-                                    className="flex items-center font-medium py-2 px-2 text-[#ffffffe6] cursor-pointer hover:bg-[#ffffff23]"
+                                    className="flex items-center font-medium py-2 px-2 text-[#ffffffe6] cursor-pointer hover:bg-[#ffffff23] rounded"
                                 >
                                     <img className='w-4 mr-4 brightness-75' src={assets.minus_icon} alt="" />
                                     Delete

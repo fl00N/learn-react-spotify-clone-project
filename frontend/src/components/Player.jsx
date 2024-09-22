@@ -18,9 +18,9 @@ const Player = () => {
 
     return (
         <div className="h-[10%] bg-black flex justify-between items-center text-white px-4">
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="flex items-center gap-4">
                     {track 
-                        ? <div className="hidden lg:flex items-center gap-4">
+                        ? <div className="flex items-center gap-4">
                             <img className="w-14 h-14 object-cover mb-1 rounded" src={track.image} alt="" />
                             <div>
                                 <p className="font-[Metropolis] font-semibold text-sm cursor-pointer">{track.name}</p>
@@ -73,7 +73,7 @@ const Player = () => {
                     <div
                         ref={seekBg}
                         onClick={seekSong}
-                        className={`w-[60vw] max-w-[500px] rounded-full cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''} ${isSeekBarHovered ? 'bg-gray-500' : 'bg-zinc-600'}`}
+                        className={`w-[500px] max-lg:w-[400px] max-[850px]:w-[300px] max-md:w-[200px] rounded-full cursor-pointer ${!track ? 'pointer-events-none brightness-[20%]' : ''} ${isSeekBarHovered ? 'bg-gray-500' : 'bg-zinc-600'}`}
                         onMouseEnter={() => setIsSeekBarHovered(true)}
                         onMouseLeave={() => setIsSeekBarHovered(false)}
                     >
@@ -90,11 +90,11 @@ const Player = () => {
                     </p>
                 </div>
             </div>
-            <div className="hidden lg:flex items-center gap-2 opacity-75">
-                <img className="w-4 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.plays_icon} alt="Playlists" />
-                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.mic_icon} alt="Microphone" />
-                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.queue_icon} alt="Queue" />
-                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.speaker_icon} alt="Speaker" />
+            <div className="flex items-center gap-2 opacity-75">
+                <img className="w-4 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer max-[1160px]:hidden" src={assets.plays_icon} alt="Playlists" />
+                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer max-[1160px]:hidden" src={assets.mic_icon} alt="Microphone" />
+                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer max-[1160px]:hidden" src={assets.queue_icon} alt="Queue" />
+                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer max-[1160px]:hidden" src={assets.speaker_icon} alt="Speaker" />
                 <div className="flex items-center relative">
                     <img 
                         onClick={toggleMute}
@@ -139,8 +139,8 @@ const Player = () => {
                         />
                     </div>
                 </div>
-                <img className="w-4 ml-2 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.mini_player_icon} alt="Mini Player" />
-                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer" src={assets.zoom_icon} alt="Zoom" />
+                <img className="w-4 ml-2 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer max-[1160px]:hidden" src={assets.mini_player_icon} alt="Mini Player" />
+                <img className="w-4 ml-1 brightness-100 hover:brightness-125 hover:scale-105 active:scale-100 active:brightness-65 cursor-pointer max-[1160px]:hidden" src={assets.zoom_icon} alt="Zoom" />
             </div>
         </div>
     )

@@ -13,6 +13,12 @@ export const AuthProvider = ({ children }) => {
         };
     });
 
+    const register = async (token, user) => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        setAuthState({ token, user });
+    };
+
     const login = async (token, user) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
@@ -38,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ authState, login, logout }}>
+        <AuthContext.Provider value={{ authState, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     );

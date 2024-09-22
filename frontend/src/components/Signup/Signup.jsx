@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { assets } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const Signup = () => {
+  const { register } = useContext(AuthContext);
+
   const [step, setStep] = useState(1);
   const [data, setData] = useState({
     email: '',
@@ -90,8 +93,7 @@ const Signup = () => {
           });
 
           if (response.status === 201) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('username', data.username);
+            await register(response.data.token, response.data.user);
             toast.success('Signup successful');
             navigate('/');
           }
