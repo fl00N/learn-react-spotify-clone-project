@@ -11,8 +11,8 @@ This project is a spotify clone app developed using React with Vite. It is prima
 
 **Login and Registration:** Users can create accounts and log in.
 
-**Create, edit and delete playlist:** User can create, edit and delete his own playlist.
+**Create, edit and delete playlist:** Users can create, edit and delete his own playlist.
 
-**Add and delete music to playlist:** User can add and delete his own playlist.
+**Add and delete music to playlist:** Users can add and delete his own playlist.
 
 **Admin:** Admins can add, edit, and delete album and music.
