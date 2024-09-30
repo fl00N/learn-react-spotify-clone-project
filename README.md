@@ -7,9 +7,9 @@ This project is a spotify clone app developed using React with Vite. It is prima
 
 # Key Features:
 
-**Interaction with music:** Users can play, shuffle and repeat music. 
-
 **Login and Registration:** Users can create accounts and log in.
+
+**Interaction with music:** Users can play, shuffle and repeat music. 
 
 **Create, edit and delete playlist:** Users can create, edit and delete his own playlist.
 
