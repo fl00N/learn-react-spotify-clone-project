@@ -2,12 +2,11 @@
 
 # Description:
 
-This project is a spotify clone app developed using React with Vite. It is primarily designed to practice and gain experience in web application development.
-
+This project is a spotify clone app developed using MERN. It is primarily designed to practice and gain experience in web application development.
 
 # Key Features:
 
-**Login and Registration:** Users can create accounts and log in.
+**Login and Registration:** Users can create accounts, log in and log out.
 
 **Interaction with music:** Users can play, shuffle and repeat music. 
 
