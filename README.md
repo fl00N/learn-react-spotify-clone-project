@@ -15,3 +15,6 @@ This project is a spotify clone app developed using MERN. It is primarily design
 **Add and delete music to playlist:** Users can add and delete his own playlist.
 
 **Admin:** Admins can add, edit, and delete album and music.
+
+# Vercel
+https://learn-react-spotify-clone-project.vercel.app/
