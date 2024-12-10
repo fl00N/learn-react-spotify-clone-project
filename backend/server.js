@@ -9,12 +9,14 @@ import connectCloudinary from './src/config/cloudinary.js'
 import playlistRouter from './src/routes/playlistRoute.js'
 
 const app = express()
-const port = process.env.PORT || 4000
+const port = 4000
 connectDB()
 connectCloudinary()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: `${process.env.BASE_URL}`
+}))
 
 app.use('/api/song', songRouter)
 app.use('/api/album', albumRouter)
