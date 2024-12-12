@@ -2,7 +2,7 @@
 
 # Description:
 
-This project is a spotify clone app developed using MERN. It is primarily designed to practice and gain experience in web application development.
+This project is a spotify clone app developed using MERN andd Tailwind CSS. It is primarily designed to practice and gain experience in web application development.
 
 # Key Features:
 
