@@ -12,8 +12,6 @@ This project is a spotify clone app developed using MERN andd Tailwind CSS. It i
 
 **Create, edit and delete playlist:** Users can create, edit and delete his own playlist.
 
-**Add and delete music to playlist:** Users can add and delete his own playlist.
-
 **Admin:** Admins can add, edit, and delete album and music.
 
 # Vercel
