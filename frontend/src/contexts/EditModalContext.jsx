@@ -1,28 +1,29 @@
-import { createContext, useContext, useState } from 'react';
-import EditModal from '../components/EditModal';
+import { createContext, useContext, useState } from "react";
+import EditModal from "../components/Desktop/EditModalDesktop";
 
 const EditModalContext = createContext();
 
 export const EditModalProvider = ({ children }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [playlistData, setPlaylistData] = useState(null);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [playlistData, setPlaylistData] = useState(null);
+  const openEditModal = (data) => {
+    setPlaylistData(data);
+    setIsModalOpen(true);
+  };
 
-    const openEditModal = (data) => {
-        setPlaylistData(data);
-        setIsModalOpen(true);
-    };
+  const closeEditModal = () => {
+    setIsModalOpen(false);
+  };
 
-    const closeEditModal = () => {
-        setIsModalOpen(false);
-    };
-
-    return (
-        <EditModalContext.Provider value={{openEditModal, closeEditModal}}>
-            {children}
-            {isModalOpen && <EditModal playlistData={playlistData} onClose={closeEditModal} />}
-        </EditModalContext.Provider>
-    );
+  return (
+    <EditModalContext.Provider value={{ openEditModal, closeEditModal }}>
+      {children}
+      {isModalOpen && (
+        <EditModal playlistData={playlistData} onClose={closeEditModal} />
+      )}
+    </EditModalContext.Provider>
+  );
 };
 
 export const useEditModal = () => useContext(EditModalContext);

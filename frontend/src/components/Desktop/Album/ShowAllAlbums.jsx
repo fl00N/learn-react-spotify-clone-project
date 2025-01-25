@@ -1,7 +1,7 @@
-import Navbar from "../Navbar";
+import Navbar from "../NavbarDesktop";
 import AlbumItem from "./AlbumItem";
 import { useContext } from "react";
-import { PlayerContext } from "../../contexts/PlayerContext";
+import { PlayerContext } from "../../../contexts/PlayerContext";
 
 const ShowAllAlbums = () => {
   const { albumsData } = useContext(PlayerContext);

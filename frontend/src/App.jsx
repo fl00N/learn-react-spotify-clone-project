@@ -1,21 +1,27 @@
-import { useContext, useEffect } from "react"
-import Display from "./components/Display"
-import Player from "./components/Player"
-import SideBar from "./components/SideBar"
-import { PlayerContext } from "./contexts/PlayerContext"
-import { Route, Routes, useLocation } from "react-router-dom"
-import Signup from "./components/Signup/Signup"
-import Login from "./components/Login/Login"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Desktop } from "./Desktop";
+import Mobile from "./Mobile";
+import Signup from "./components/Other/Signup/Signup";
+import Login from "./components/Other/Login/Login";
+import { useEffect, useState } from "react";
 
 const App = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const DesktopOrMobile = !isMobile ? <Desktop /> : <Mobile />;
 
-  const {audioRef, track, songsData} = useContext(PlayerContext)
-  const location = useLocation();
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-  const noLayoutPaths = ["/signup", "/login"];
-  
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <ToastContainer />
@@ -23,28 +29,10 @@ const App = () => {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="*" element={DesktopOrMobile} />
       </Routes>
-
-      {!noLayoutPaths.includes(location.pathname) && (
-        <div className="h-screen bg-black">
-          {songsData.length !== 0 && (
-            <>
-              <div className="h-[90%] flex">
-                <SideBar />
-                <Display />
-              </div>
-              <Player />
-            </>
-          )}
-          <audio
-            ref={audioRef}
-            src={track ? track.file : ""}
-            preload="auto"
-          ></audio>
-        </div>
-      )}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

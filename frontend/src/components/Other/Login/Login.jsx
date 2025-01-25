@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { assets } from "../../assets/assets";
+import { assets } from "../../../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Login = () => {
   const [data, setData] = useState({

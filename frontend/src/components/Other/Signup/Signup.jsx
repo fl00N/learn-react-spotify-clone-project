@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import { assets } from "../../assets/assets";
+import { assets } from "../../../assets/assets";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Signup = () => {
   const { register } = useContext(AuthContext);
