@@ -49,7 +49,7 @@ const SearchMobile = () => {
           className="relatve flex items-center brightness-75 hover:brightness-100"
         >
           <img
-            className="absolute left-4 top-1/2 w-[18px] transform -translate-y-1/2 z-10"
+            className="absolute left-4 w-[18px] z-10"
             src={assets.search_icon}
             alt="Search Icon"
           />
