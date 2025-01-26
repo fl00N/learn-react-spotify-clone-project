@@ -46,15 +46,17 @@ const SearchMobile = () => {
         <form
           onSubmit={handleSearch}
           role="search"
-          className="relatve flex items-center rounded-full brightness-75 bg-[#303030] hover:brightness-100"
+          className="relatve flex items-center brightness-75 hover:brightness-100"
         >
-          <img
-            className="absolute left-4 w-[18px] z-10"
-            src={assets.search_icon}
-            alt="Search Icon"
-          />
+          <span className="absolute left-4 z-10">
+            <img
+              className="w-[18px]"
+              src={assets.search_icon}
+              alt="Search Icon"
+            />
+          </span>
           <input
-            className="bg-[#303030] w-full rounded-full py-3 pl-12 placeholder:text-[#b3b3b310e] placeholder:font-[Metropolis] placeholder:text-sm placeholder:font-medium outline-white focus:outline focus:outline-[3px]"
+            className="bg-[#303030] rounded-full py-3 pl-12 w-full text-white placeholder:text-[#b3b3b310e] placeholder:font-[Metropolis] placeholder:text-sm placeholder:font-medium outline-white focus:outline focus:outline-[3px]"
             type="text"
             placeholder="What do you want to play?"
             value={searchTerm}
