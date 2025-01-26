@@ -210,7 +210,7 @@ const DisplayPlaylist = () => {
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
           key={item._id}
-          className={`max-md:ml-3 flex justify-between gap-2 p-2 items-center rounded cursor-pointer relative
+          className={`max-md:mx-3 flex justify-between gap-2 p-2 items-center rounded cursor-pointer relative
                         ${
                           hoveredIndex === index
                             ? "bg-[#ffffff40]"
@@ -220,7 +220,7 @@ const DisplayPlaylist = () => {
           <div className="text-white flex items-center">
             {hoveredIndex === index ? (
               <img
-                className="ml-2 mr-[1.08rem] w-3"
+                className="max-md:hidden ml-2 mr-[1.08rem] w-3"
                 src={assets.small_play_icon}
                 alt="Play Icon"
               />

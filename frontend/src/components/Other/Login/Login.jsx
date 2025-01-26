@@ -75,7 +75,7 @@ const Login = () => {
         src={assets.white_spotify_logo}
         alt="Spotify Logo"
       />
-      <h1 className="text-white font-[Metropolis] font-bold text-[2.4rem] tracking-[-0.02em] text-center">
+      <h1 className="text-white font-[Metropolis] font-bold max-[400px]:text-[2.1rem] text-[2.4rem] tracking-[-0.02em] text-center">
         Log in to Spotify
       </h1>
 
@@ -90,7 +90,7 @@ const Login = () => {
             onChange={onChangeHandler}
             type="text"
             placeholder="Email or username"
-            className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] w-[324px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+            className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] max-[400px]:w-[250px] w-[324px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
           />
           {errors.emailOrUsername && (
             <p className="text-red-500 font-medium mt-1 text-sm">
@@ -109,7 +109,7 @@ const Login = () => {
             onChange={onChangeHandler}
             type="password"
             placeholder="Password"
-            className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] w-[324px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+            className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] max-[400px]:w-[250px] w-[324px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
           />
           {errors.password && (
             <p className="text-red-500 font-medium mt-1 text-sm">
@@ -120,15 +120,15 @@ const Login = () => {
 
         <button
           type="submit"
-          className="mt-6 w-[324px] bg-green-500 py-3 rounded-full font-bold"
+          className="mt-6 w-[324px] max-[400px]:w-[250px] bg-green-500 py-3 rounded-full font-bold"
         >
           Log In
         </button>
       </form>
 
       <div className="flex flex-col items-center">
-        <hr className="brightness-[30%] w-[21rem] mt-10" />
-        <p className="text-[#b3b3b3] font-medium mt-8">
+        <hr className="brightness-[30%] max-[400px]:w-[250px] w-[21rem] mt-10" />
+        <p className="text-[#b3b3b3] font-medium mt-8 max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center">
           Don't have an account?
           <span
             className="text-white underline ml-1 cursor-pointer hover:text-green-400"

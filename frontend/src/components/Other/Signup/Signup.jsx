@@ -139,7 +139,7 @@ const Signup = () => {
       <div className="w-full max-w-md">
         <div className="mb-4">
           {step === 1 && (
-            <h1 className="text-white font-[Metropolis] font-bold text-5xl tracking-[-0.055em] text-center">
+            <h1 className="text-white font-[Metropolis] font-bold max-[400px]:text-4xl text-5xl tracking-[-0.055em] text-center">
               Sign up to start <br /> listening
             </h1>
           )}
@@ -186,7 +186,7 @@ const Signup = () => {
                   onChange={onChangeHandler}
                   type="email"
                   placeholder="name@domain.com"
-                  className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] w-[324px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                  className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] max-[400px]:w-[250px] w-[324px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                 />
                 {errors.email && (
                   <p className="text-red-500 font-medium mt-1 text-sm">
@@ -209,14 +209,14 @@ const Signup = () => {
                   onChange={onChangeHandler}
                   type="password"
                   placeholder="Password"
-                  className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] border-gray-500 rounded w-full text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                  className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] border-gray-500 max-[400px]:w-[250px] rounded w-full text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                 />
                 {errors.password && (
                   <p className="text-red-500 font-medium mt-1 text-sm">
                     {errors.password}
                   </p>
                 )}
-                <div className="mt-4 text-white mb-3">
+                <div className="max-[400px]:text-xs mt-4 text-white mb-3">
                   <p className="font-semibold mb-1.5">
                     Your password must contain at least
                   </p>
@@ -274,7 +274,7 @@ const Signup = () => {
                   onChange={onChangeHandler}
                   type="text"
                   placeholder="Username"
-                  className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                  className="bg-[#121212] max-[400px]:w-[250px] border-solid border-[1px] px-3.5 py-[0.7rem] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                 />
                 {errors.username && (
                   <p className="text-red-500 font-medium mt-1 text-sm">
@@ -293,7 +293,7 @@ const Signup = () => {
                     onChange={onChangeHandler}
                     type="number"
                     placeholder="Day"
-                    className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] w-[100px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                    className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] max-[400px]:w-[78px] w-[100px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                   />
                   <input
                     name="month"
@@ -301,7 +301,7 @@ const Signup = () => {
                     onChange={onChangeHandler}
                     type="number"
                     placeholder="Month"
-                    className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] w-[100px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                    className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] max-[400px]:w-[78px] w-[100px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                   />
                   <input
                     name="year"
@@ -309,7 +309,7 @@ const Signup = () => {
                     onChange={onChangeHandler}
                     type="number"
                     placeholder="Year"
-                    className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] w-[100px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                    className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] max-[400px]:w-[78px] w-[100px] border-gray-500 rounded text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                   />
                 </div>
                 {errors.dob && (
@@ -326,7 +326,7 @@ const Signup = () => {
                   name="gender"
                   value={data.gender}
                   onChange={onChangeHandler}
-                  className="bg-[#121212] border-solid border-[1px] px-3.5 py-[0.7rem] border-gray-500 rounded w-full text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
+                  className="bg-[#121212] max-[400px]:w-[250px] border-solid border-[1px] px-3.5 py-[0.7rem] border-gray-500 rounded w-full text-white placeholder:text-[#a3a3a3] placeholder:font-medium placeholder:text-[0.95rem] hover:outline hover:outline-[1.5px] focus:outline-none focus:ring-2 focus:ring-white"
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -344,7 +344,7 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="mt-5 w-[324px] bg-green-500 py-3 rounded-full font-bold"
+            className="mt-5 max-[400px]:w-[250px] w-[324px] bg-green-500 py-3 rounded-full font-bold"
           >
             {step === 3 ? "Submit" : "Next"}
           </button>
@@ -352,8 +352,8 @@ const Signup = () => {
 
         {step === 1 && (
           <div className="flex flex-col items-center">
-            <hr className="brightness-[30%] w-[21rem] mt-10" />
-            <p className="text-[#b3b3b3] font-medium mt-8">
+            <hr className="brightness-[30%] max-[400px]:w-[250px] w-[21rem] mt-10" />
+            <p className="text-[#b3b3b3] font-medium mt-8 max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center">
               Already have an account?
               <span
                 className="text-white underline ml-1 cursor-pointer hover:text-green-400"

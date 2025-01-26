@@ -1,14 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { assets } from "../../../assets/assets";
+import { PlayerContext } from "../../../contexts/PlayerContext";
 import axios from "axios";
-import { assets } from "../../assets/assets";
-import { PlayerContext } from "../../contexts/PlayerContext";
 
-const Search = () => {
-  const location = useLocation();
+const SearchMobile = () => {
+  const { track, playWithId, setNavigationToAll } = useContext(PlayerContext);
   const [songs, setSongs] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const { track, playWithId, setNavigationToAll } = useContext(PlayerContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${searchTerm}`);
+  };
 
   const handleClick = (songId) => {
     playWithId(songId);
@@ -35,19 +41,28 @@ const Search = () => {
   }, [query]);
 
   return (
-    <>
-      <div className="grid grid-cols-[630px_minmax(0,1fr)_100px] mt-10 mb-4 pl-2 text-[#a7a7a7]">
-        <p className="font-[Metropolis] font-medium">
-          <b className="ml-2 mr-4">#</b>Title
-        </p>
-        <p className="font-[Metropolis] font-medium">Album</p>
-        <img
-          className="w-4 mt-2 mr-6 ml-auto"
-          src={assets.clock_icon}
-          alt="Clock"
-        />
+    <div className="h-[calc(100vh+100px)]">
+      <div className="px-2 py-6">
+        <form
+          onSubmit={handleSearch}
+          role="search"
+          className="flex items-center brightness-75 hover:brightness-100"
+        >
+          <img
+            className="absolute left-4 top-1/2 w-[18px] transform -translate-y-1/2 z-10"
+            src={assets.search_icon}
+            alt="Search Icon"
+          />
+          <input
+            className="bg-[#303030] rounded-full py-3 pl-12 w-[22.5rem] placeholder:text-[#b3b3b310e] placeholder:font-[Metropolis] placeholder:text-sm placeholder:font-medium outline-white focus:outline focus:outline-[3px]"
+            type="text"
+            placeholder="What do you want to play?"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </form>
       </div>
-      <hr className="brightness-50 mb-1" />
+
       <div>
         {songs.map((song, index) => (
           <div
@@ -55,28 +70,10 @@ const Search = () => {
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             onClick={() => handleClick(song._id)}
-            className={`grid grid-cols-[630px_minmax(0,1fr)_100px] p-2 items-center rounded cursor-pointer
+            className={`grid p-2 items-center rounded cursor-pointer
             ${hoveredIndex === index ? "bg-[#ffffff40]" : "text-[#b3b3b3]"}`}
           >
             <div className="text-white flex items-center">
-              {hoveredIndex === index ? (
-                <img
-                  className="ml-2 mr-[1.08rem] w-3"
-                  src={assets.small_play_icon}
-                  alt="Play Icon"
-                />
-              ) : (
-                <b
-                  className={`ml-2 mr-5 text-[#b3b3b3]
-                  ${
-                    song._id === track?._id
-                      ? "text-green-400"
-                      : "text-[#b3b3b3]"
-                  }`}
-                >
-                  {index + 1}
-                </b>
-              )}
               <img
                 className="inline w-10 me-5"
                 src={song.image}
@@ -94,17 +91,11 @@ const Search = () => {
                 </p>
               </div>
             </div>
-            <p className="font-[Metropolis] font-medium text-[15px]">
-              {song.album}
-            </p>
-            <p className="font-[Metropolis] font-medium text-[15px] mr-4 ml-auto">
-              {song.duration}
-            </p>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
-export default Search;
+export default SearchMobile;

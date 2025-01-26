@@ -1,16 +1,17 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import DisplayHomeMobile from "./DisplayHomeMobile";
-import { useContext, useEffect, useRef } from "react";
+import { useContext } from "react";
 import { PlayerContext } from "../../contexts/PlayerContext";
 import { PlaylistContext } from "../../contexts/PlaylistContext";
 import DisplayAlbum from "../Desktop/Album/DisplayAlbum";
 import DisplayPlaylist from "../Desktop/Playlist/DisplayPlaylist";
 import FooterMobile from "./Other/FooterMobile";
+import PlayerMobile from "./Other/PlayerMobile";
+import SearchMobile from "./Other/SearchMobile";
 
 const DisplayMobile = () => {
   const { albumsData } = useContext(PlayerContext);
   const { playlistsData } = useContext(PlaylistContext);
-  const displayRef = useRef();
   const location = useLocation();
 
   const isAlbum = location.pathname.includes("album");
@@ -21,16 +22,6 @@ const DisplayMobile = () => {
   const album = isAlbum ? albumsData.find((x) => x._id === id) : null;
   const playlist = isPlaylist ? playlistsData.find((x) => x._id === id) : null;
 
-  const bgColor = isAlbum && album ? album.bgColor : "#121212";
-
-  useEffect(() => {
-    if (displayRef.current) {
-      displayRef.current.style.background = isAlbum
-        ? `linear-gradient(${bgColor}, #121212)`
-        : "#121212";
-    }
-  }, [isAlbum, bgColor, albumsData]);
-
   return (
     <>
       <Routes>
@@ -40,8 +31,10 @@ const DisplayMobile = () => {
           path="/playlist/:id"
           element={<DisplayPlaylist playlist={playlist} />}
         />
+        <Route path="/search" element={<SearchMobile />} />
       </Routes>
 
+      <PlayerMobile />
       <FooterMobile />
     </>
   );
