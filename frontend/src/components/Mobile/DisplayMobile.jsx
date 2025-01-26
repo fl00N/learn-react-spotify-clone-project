@@ -8,6 +8,7 @@ import DisplayPlaylist from "../Desktop/Playlist/DisplayPlaylist";
 import FooterMobile from "./Other/FooterMobile";
 import PlayerMobile from "./Other/PlayerMobile";
 import SearchMobile from "./Other/SearchMobile";
+import LibraryMobile from "./Other/LibraryMobile";
 
 const DisplayMobile = () => {
   const { albumsData } = useContext(PlayerContext);
@@ -32,6 +33,7 @@ const DisplayMobile = () => {
           element={<DisplayPlaylist playlist={playlist} />}
         />
         <Route path="/search" element={<SearchMobile />} />
+        <Route path="/library" element={<LibraryMobile />} />
       </Routes>
 
       <PlayerMobile />

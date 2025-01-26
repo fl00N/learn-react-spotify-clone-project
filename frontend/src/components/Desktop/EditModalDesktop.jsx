@@ -58,7 +58,7 @@ const EditModal = ({ playlistData, onClose }) => {
     <div className="z-[9999] fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
         ref={modalRef}
-        className="relative bg-[#282828] p-6 rounded-lg shadow-lg max-w-sm w-full"
+        className="relative bg-[#282828] p-6 mx-4 rounded-lg shadow-lg max-w-sm w-full"
       >
         <button
           onClick={onClose}

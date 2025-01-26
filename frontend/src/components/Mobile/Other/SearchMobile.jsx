@@ -54,7 +54,7 @@ const SearchMobile = () => {
             alt="Search Icon"
           />
           <input
-            className="bg-[#303030] rounded-full py-3 pl-12 w-[22.5rem] placeholder:text-[#b3b3b310e] placeholder:font-[Metropolis] placeholder:text-sm placeholder:font-medium outline-white focus:outline focus:outline-[3px]"
+            className="bg-[#303030] rounded-full py-3 pl-12 w-full placeholder:text-[#b3b3b310e] placeholder:font-[Metropolis] placeholder:text-sm placeholder:font-medium outline-white focus:outline focus:outline-[3px]"
             type="text"
             placeholder="What do you want to play?"
             value={searchTerm}
