@@ -46,7 +46,7 @@ const SearchMobile = () => {
         <form
           onSubmit={handleSearch}
           role="search"
-          className="flex items-center brightness-75 hover:brightness-100"
+          className="relatve flex items-center brightness-75 hover:brightness-100"
         >
           <img
             className="absolute left-4 top-1/2 w-[18px] transform -translate-y-1/2 z-10"
